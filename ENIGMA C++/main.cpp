@@ -35,13 +35,13 @@ int main() {
         std::cin >> opcio;
         switch (opcio) {
         case 1:
-            // xifrarMissatge();
+            xifrarMissatge();
             break;
         case 2:
-        // desxifrarMissatge();
+            desxifrarMissatge();
             break;
         case 3:
-            // editarRotor();
+            editarRotor();
             break;
         case 4:
             std::cout << "   Sortint del programa...\n";

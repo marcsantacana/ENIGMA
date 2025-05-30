@@ -1,0 +1,71 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <filesystem>
+#include <thread>
+#include <chrono>
+#include "enigma.h"
+#include "rotor.h"
+#include "utils.h"
+
+void xifrarMissatge() {
+
+    Rotor r1 = carregarRotor("Rotor1.txt");
+    Rotor r2 = carregarRotor("Rotor2.txt");
+    Rotor r3 = carregarRotor("Rotor3.txt");
+
+    if (r1.cablejat.empty() || r2.cablejat.empty() || r3.cablejat.empty()) {
+        std::cout << "   [ERROR] No s'han pogut carregar els rotors.\n";
+        return;
+    }
+
+    std::string finestra;
+    std::cout << "   Finestra inicial (ex: ABC): ";
+    std::cin >> finestra;
+    if (finestra.size() != 3) {
+        std::cout << " " << std::endl;
+        std::cout << "   [ERROR] Configuracio invalida.\n";
+        return;
+    }
+    r1.posicio = lletraAIndex(finestra[0]);
+    r2.posicio = lletraAIndex(finestra[1]);
+    r3.posicio = lletraAIndex(finestra[2]);
+
+    std::ifstream in("Missatge.txt");
+    if (!in) {
+        std::cout << "   [ERROR] No s'ha trobat Missatge.txt\n";
+        return;
+    }
+
+    std::string entrada;
+    for (char c; in.get(c); ) {
+        entrada += c;
+    }
+
+    std::string net = netejarText(entrada);
+    std::string resultat;
+
+    for (char c : net) {
+        r1 = girarRotor(r1);
+        if (indexALletra(r1.posicio) == r1.notch) r2 = girarRotor(r2);
+        if (indexALletra(r2.posicio) == r2.notch) r3 = girarRotor(r3);
+
+        char x = transformarEndavant(c, r1);
+        x = transformarEndavant(x, r2);
+        x = transformarEndavant(x, r3);
+        x = transformarEnrere(x, r3);
+        x = transformarEnrere(x, r2);
+        x = transformarEnrere(x, r1);
+
+        resultat += x;
+    }
+
+    std::ofstream out("Xifrat.txt");
+    out << formatGrupsDe5(resultat);
+
+    // Calcular grups de 5 lletres
+    int longitud = resultat.size();
+    int grupsDe5 = longitud / 5 + (longitud % 5 != 0 ? 1 : 0);
+    std::cout << " " << std::endl;
+    std::cout << "   [OK] Missatge xifrat a \"Xifrat.txt\" (" << longitud << " lletres, " << grupsDe5 << " grups de 5)\n";
+}
