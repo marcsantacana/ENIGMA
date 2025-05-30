@@ -159,3 +159,28 @@ void desxifrarMissatge() {
     std::cout << " " << std::endl;
     std::cout << "   [OK] Missatge desxifrat a "Dexifrat.txt" (" << resultat.size() << " lletres, " << grupsDe5 << " grups de 5)\n";
 }
+
+void editarRotor() {
+    int id;
+    std::string wiring;
+    char notch;
+
+    std::cout << "   Quin rotor vols editar (1, 2 o 3)? ";
+    std::cin >> id;
+    if (id < 1 || id > 3) {
+        std::cout << " " << std::endl;
+        std::cout << "\033[31m   [ERROR]\033[0m ID de rotor invalid.\n";
+        return;
+    }
+    std::cout << "   Introdueix nova permutacio (26 lletres uniques A-Z): ";
+    std::cin >> wiring;
+    std::cout << "   Lletra notch: ";
+    std::cin >> notch;
+
+    std::string nom = "Rotor" + std::to_string(id) + ".txt";
+    if (guardarPermutacio(nom, wiring, notch))
+        std::cout << "\033[32m   [OK]\033[0m Rotor" << id << " actualitzat.\n";
+    else
+        std::cout << " " << std::endl;
+        std::cout << "\033[31m   [ERROR]\033[0m Permutacio invalida.\n";
+}
