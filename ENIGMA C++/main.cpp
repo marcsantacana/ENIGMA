@@ -2,53 +2,34 @@
 //
 
 #include <iostream>
+#include <thread>
+#include <chrono>
+#include "enigma.h"
+#include "UI.h"
 
 int main() {
-
-    std::cout << R"(
-    ________    __    __    ______     ______     __       __     ______
-   |        \  |  \  |  \  |      \   /      \   |  \     /  \   /      \ 
-   | $$$$$$$$  | $$\ | $$   \$$$$$$  |  $$$$$$\  | $$\   /  $$  |  $$$$$$\
-   | $$__      | $$$\| $$    | $$    | $$ __\$$  | $$$\ /  $$$  | $$__| $$
-   | $$  \     | $$$$\ $$    | $$    | $$|    \  | $$$$\  $$$$  | $$    $$
-   | $$$$$     | $$\$$ $$    | $$    | $$ \$$$$  | $$\$$ $$ $$  | $$$$$$$$
-   | $$_____   | $$ \$$$$   _| $$_   | $$__| $$  | $$ \$$$| $$  | $$  | $$
-   | $$     \  | $$  \$$$  |   $$ \   \$$    $$  | $$  \$ | $$  | $$  | $$
-    \$$$$$$$$   \$$   \$$   \$$$$$$    \$$$$$$    \$$      \$$   \$$   \$$
-)" << std::endl;
-
-    std::cout << "   +----------------------------------------------------+" << std::endl;
-    std::cout << "   |       Simulacio de la maquina ENIGMA en C++        |" << std::endl;
-    std::cout << "   |      by Marc Santacana & Abderraman Ahiayouch      |" << std::endl;
-    std::cout << "   +----------------------------------------------------+" << std::endl;
-    std::cout << " " << std::endl;
-    std::cout << "   1. Xifrar missatge" << std::endl;
-    std::cout << "   2. Desxifrar missatge" << std::endl;
-    std::cout << "   3. Editar rotors" << std::endl;
-    std::cout << "   4. Sortir" << std::endl;
-    std::cout << " " << std::endl;
-    std::cout << "   ------------------------------------------------------" << std::endl;
-    std::cout << "   Selecciona una opcio (1-4): ";
-
+    titolInici();
     int opcio;
     do {
+        mostrarMenu();
         std::cin >> opcio;
         switch (opcio) {
-        case 1:
-            xifrarMissatge();
+        case 1: 
+            xifrarMissatge(); 
             break;
-        case 2:
-            desxifrarMissatge();
+        case 2: 
+            desxifrarMissatge(); 
             break;
-        case 3:
-            editarRotor();
+        case 3: 
+            editarRotor(); 
             break;
-        case 4:
-            std::cout << "   Sortint del programa...\n";
+        case 4: 
+            std::cout << "   Sortint del programa...\n"; 
             break;
-        default:
+        default: 
             std::cout << " " << std::endl;
-            std::cout << "   [ERROR] Opcio invalida.\n";
+            std::cout << "\033[31m   [ERROR]\033[0m Opcio invalida.\n";
+			esperat();
         }
     } while (opcio != 4);
 

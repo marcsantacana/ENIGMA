@@ -7,13 +7,14 @@
 #include "enigma.h"
 #include "rotor.h"
 #include "utils.h"
+#include "UI.h"
 
 void comprovarMissatge() {
     const std::string nomFitxer = "Missatge.txt";
 
     std::ifstream arxiu(nomFitxer);
     if (arxiu.is_open()) {
-        std::cout << "   [INFO] S'ha detectat Missatge.txt existent. Si vols introduir un nou missatge hauras de borrar l'arxiu Missatge.txt.\n";
+        std::cout << "\033[34m   [INFO]\033[0m S'ha detectat Missatge.txt existent. Si vols introduir un nou missatge hauras de borrar l'arxiu Missatge.txt.\n";
         std::cout << " " << std::endl;
         arxiu.close();
         return;
@@ -25,26 +26,29 @@ void comprovarMissatge() {
 
     std::ofstream out(nomFitxer);
     if (!out) {
-        std::cout << "   [ERROR] No s'ha pogut crear Missatge.txt\n";
+        std::cout << "\033[31m   [ERROR]\033[0m No s'ha pogut crear Missatge.txt\n";
+        esperat();
         return;
     }
 
     out << missatge;
     out.close();
     std::cout << " " << std::endl;
-    std::cout << "   [OK] Missatge guardat a "" << nomFitxer << ""\n";
+    std::cout << "\033[32m   [OK]\033[0m Missatge guardat a \"" << nomFitxer << "\"\n";
+    esperat();
     return;
 }
 
-
 void xifrarMissatge() {
+    menuXifrar();
 
     Rotor r1 = carregarRotor("Rotor1.txt");
     Rotor r2 = carregarRotor("Rotor2.txt");
     Rotor r3 = carregarRotor("Rotor3.txt");
 
     if (r1.cablejat.empty() || r2.cablejat.empty() || r3.cablejat.empty()) {
-        std::cout << "   [ERROR] No s'han pogut carregar els rotors.\n";
+        std::cout << "\033[31m   [ERROR]\033[0m No s'han pogut carregar els rotors.\n";
+        esperat();
         return;
     }
 
@@ -53,7 +57,8 @@ void xifrarMissatge() {
     std::cin >> finestra;
     if (finestra.size() != 3) {
         std::cout << " " << std::endl;
-        std::cout << "   [ERROR] Configuracio invalida.\n";
+        std::cout << "\033[31m   [ERROR]\033[0m Configuracio invalida.\n";
+        esperat();
         return;
     }
     r1.posicio = lletraAIndex(finestra[0]);
@@ -62,7 +67,8 @@ void xifrarMissatge() {
 
     std::ifstream in("Missatge.txt");
     if (!in) {
-        std::cout << "   [ERROR] No s'ha trobat Missatge.txt\n";
+        std::cout << "\033[31m   [ERROR]\033[0m No s'ha trobat Missatge.txt\n";
+        esperat();
         return;
     }
 
@@ -96,17 +102,20 @@ void xifrarMissatge() {
     int longitud = resultat.size();
     int grupsDe5 = longitud / 5 + (longitud % 5 != 0 ? 1 : 0);
     std::cout << " " << std::endl;
-    std::cout << "   [OK] Missatge xifrat a \"Xifrat.txt\" (" << longitud << " lletres, " << grupsDe5 << " grups de 5)\n";
+    std::cout << "\033[32m   [OK]\033[0m Missatge xifrat a \"Xifrat.txt\" (" << longitud << " lletres, " << grupsDe5 << " grups de 5)\n";
+    esperat();
 }
 
 void desxifrarMissatge() {
+	menuDesxifrar();
 
     Rotor r1 = carregarRotor("Rotor1.txt");
     Rotor r2 = carregarRotor("Rotor2.txt");
     Rotor r3 = carregarRotor("Rotor3.txt");
 
-    if (r1.cablejat.empty()  r2.cablejat.empty()  r3.cablejat.empty()) {
-        std::cout << "   [ERROR] No s'han pogut carregar els rotors.\n";
+    if (r1.cablejat.empty() || r2.cablejat.empty() || r3.cablejat.empty()) {
+        std::cout << "\033[31m   [ERROR]\033[0m No s'han pogut carregar els rotors.\n";
+        esperat();
         return;
     }
 
@@ -115,7 +124,8 @@ void desxifrarMissatge() {
     std::cin >> finestra;
     if (finestra.size() != 3) {
         std::cout << " " << std::endl;
-        std::cout << "   [ERROR] Configuracio invalida.\n";
+        std::cout << "\033[31m   [ERROR]\033[0m Configuracio invalida.\n";
+        esperat();
         return;
     }
     r1.posicio = lletraAIndex(finestra[0]);
@@ -125,7 +135,8 @@ void desxifrarMissatge() {
     std::ifstream in("Xifrat.txt");
     if (!in) {
         std::cout << " " << std::endl;
-        std::cout << "   [ERROR] No s'ha trobat Xifrat.txt\n";
+        std::cout << "\033[31m   [ERROR]\033[0m No s'ha trobat Xifrat.txt\n";
+        esperat();
         return;
     }
 
@@ -151,18 +162,22 @@ void desxifrarMissatge() {
 
         resultat += x;
     }
+
     std::ofstream out("Desxifrat.txt");
     out << resultat;
     int longitud = resultat.size();
     int grupsDe5 = longitud / 5 + (longitud % 5 != 0 ? 1 : 0);
     std::cout << " " << std::endl;
-    std::cout << "   [OK] Missatge desxifrat a "Dexifrat.txt" (" << resultat.size() << " lletres, " << grupsDe5 << " grups de 5)\n";
+    std::cout << "\033[32m   [OK]\033[0m Missatge desxifrat a \"Dexifrat.txt\" (" << resultat.size() << " lletres, " << grupsDe5 << " grups de 5)\n";
+    esperat();
 }
 
 void editarRotor() {
     int id;
     std::string wiring;
     char notch;
+
+	menuRotors();
 
     std::cout << "   Quin rotor vols editar (1, 2 o 3)? ";
     std::cin >> id;
@@ -182,4 +197,5 @@ void editarRotor() {
     else
         std::cout << " " << std::endl;
         std::cout << "\033[31m   [ERROR]\033[0m Permutacio invalida.\n";
+        esperat();
 }
