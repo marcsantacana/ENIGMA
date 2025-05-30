@@ -151,7 +151,6 @@ void desxifrarMissatge() {
 
         resultat += x;
     }
-
     std::ofstream out("Desxifrat.txt");
     out << resultat;
     int longitud = resultat.size();
