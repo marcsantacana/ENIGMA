@@ -8,6 +8,35 @@
 #include "rotor.h"
 #include "utils.h"
 
+void comprovarMissatge() {
+    const std::string nomFitxer = "Missatge.txt";
+
+    std::ifstream arxiu(nomFitxer);
+    if (arxiu.is_open()) {
+        std::cout << "   [INFO] S'ha detectat Missatge.txt existent. Si vols introduir un nou missatge hauras de borrar l'arxiu Missatge.txt.\n";
+        std::cout << " " << std::endl;
+        arxiu.close();
+        return;
+    }
+
+    std::string missatge;
+    std::cout << "    Introdueix el missatge que vols xifrar:\n >  ";
+    std::getline(std::cin, missatge);
+
+    std::ofstream out(nomFitxer);
+    if (!out) {
+        std::cout << "   [ERROR] No s'ha pogut crear Missatge.txt\n";
+        return;
+    }
+
+    out << missatge;
+    out.close();
+    std::cout << " " << std::endl;
+    std::cout << "   [OK] Missatge guardat a "" << nomFitxer << ""\n";
+    return;
+}
+
+
 void xifrarMissatge() {
 
     Rotor r1 = carregarRotor("Rotor1.txt");
@@ -69,3 +98,4 @@ void xifrarMissatge() {
     std::cout << " " << std::endl;
     std::cout << "   [OK] Missatge xifrat a \"Xifrat.txt\" (" << longitud << " lletres, " << grupsDe5 << " grups de 5)\n";
 }
+
