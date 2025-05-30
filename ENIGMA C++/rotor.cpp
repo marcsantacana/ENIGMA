@@ -1,6 +1,7 @@
+#include "rotor.h"
 #include <fstream>
 #include <algorithm>
-#include "rotor.h"
+
 #include "utils.h"
 
 Rotor carregarRotor(const std::string nomFitxer) {
