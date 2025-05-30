@@ -7,7 +7,9 @@
 #include "enigma.h"
 #include "UI.h"
 
+// Punt d’entrada principal del programa.
 int main() {
+    // Mostra el títol en ASCII art.
     titolInici();
     int opcio;
     do {

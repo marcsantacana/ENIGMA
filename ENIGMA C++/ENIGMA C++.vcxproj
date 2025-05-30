@@ -127,7 +127,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="enigma.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="rotor.cpp" />
+    <ClCompile Include="UI.cpp" />
+    <ClCompile Include="utils.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="enigma.h" />
+    <ClInclude Include="rotor.h" />
+    <ClInclude Include="UI.h" />
+    <ClInclude Include="utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
